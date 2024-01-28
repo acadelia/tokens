@@ -1,0 +1,53 @@
+<div class="login-root">
+  <div
+    class="box-root padding-top--24 flex-flex flex-direction--column"
+    style="flex-grow: 1; z-index: 9"
+  >
+    <div class="formbg-outer">
+      <div class="formbg">
+        <div class="formbg-inner padding-horizontal--48">
+          <span class="padding-bottom--15">Sign in to your account</span>
+          <div id="stripe-login">
+            <div class="field padding-bottom--24 inputs">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                name="email"
+                [(ngModel)]="email"
+                required=""
+              />
+            </div>
+            <div class="field padding-bottom--24 inputs">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                name="password"
+                [(ngModel)]="password"
+                required=""
+              />
+            </div>
+            <div *ngIf="errorMessage" class="error-message">
+              {{ errorMessage }}
+            </div>
+            <div class="field padding-bottom--24">
+              <button
+                type="submit"
+                name="submit"
+                (click)="login()"
+                [ngClass]="{ 'disabled-button': !email || !password }"
+              >
+                Continue
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-link padding-top--24">
+        <span
+          >Don't have an account?
+          <a [routerLink]="['/signup']">Sign up</a></span
+        >
+      </div>
+    </div>
+  </div>
+</div>

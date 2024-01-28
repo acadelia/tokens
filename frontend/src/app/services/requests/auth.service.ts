@@ -1,17 +1,62 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import {
+  BehaviorSubject,
+  Observable,
+  catchError,
+  map,
+  switchMap,
+  tap,
+  throwError,
+} from 'rxjs';
+import { TokenService } from '../token.service';
 
 const loginApi = '/api/login';
-const signInApi = '/api/singup';
-const getAccessToken = 'api/refreshToken';
-const TOKEN_KEY = 'auth_token';
+const signUpApi = '/api/signup';
+const refreshTokenApi = '/api/refreshToken';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private tokenService: TokenService) {}
+
+  // signUp(username: any, email: any, password: any): Observable<any> {
+  //   const body = {
+  //     userName: username,
+  //     email: email,
+  //     password: password,
+  //   };
+
+  //   return this.http.post(signUpApi, body);
+  // }
+
+  signUpAndLogin(username: any, email: any, password: any): Observable<any> {
+    const signUpBody = {
+      userName: username,
+      email: email,
+      password: password,
+    };
+    const loginBody = {
+      email: email,
+      password: password,
+    };
+
+    return this.http.post(signUpApi, signUpBody).pipe(
+      switchMap((registrationResponse: any) => {
+        return this.http.post(loginApi, loginBody).pipe(
+          tap((loginResponse: any) => {
+            const token = loginResponse.accessToken;
+            const refresh = loginResponse.refreshToken;
+            if (token) {
+              this.tokenService.saveToken(token);
+              this.tokenService.saveRefreshToken(refresh);
+            }
+          })
+        );
+      })
+    );
+  }
 
   login(email: string, password: string): Observable<any> {
     const body = {
@@ -21,11 +66,24 @@ export class LoginService {
 
     return this.http.post(loginApi, body).pipe(
       tap((response: any) => {
-        const token = response.token;
+        const token = response.accessToken;
+        const refresh = response.refreshToken;
         if (token) {
-          localStorage.setItem(TOKEN_KEY, token);
+          this.tokenService.saveToken(token);
+          this.tokenService.saveRefreshToken(refresh);
         }
       })
     );
+  }
+
+  signout() {
+    this.tokenService.signOut();
+  }
+
+  refreshToken(refreshToken: string | null): Observable<any> {
+    const body = {
+      refreshToken: refreshToken,
+    };
+    return this.http.post(refreshTokenApi, body);
   }
 }
