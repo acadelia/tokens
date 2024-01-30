@@ -9,7 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './pages/home/home.component';
 import { SignoutComponent } from './components/signout/signout.component';
-import { TokenInterceptor } from './services/interrceptor/auth.interceptor';
+import { TokenInterceptor } from './services/interceptor/auth.interceptor';
 
 @NgModule({
   declarations: [

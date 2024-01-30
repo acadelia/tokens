@@ -73,16 +73,16 @@ export class SignupComponent implements OnInit {
     const { username, email, password } = this.signUpForm.value;
     const formValuesString = JSON.stringify(this.signUpForm.value);
 
-    this.auth.signUpAndLogin(username, email, password).subscribe(
-      (response) => {
+    this.auth.signUpAndLogin(username, email, password).subscribe({
+      next: (response) => {
         this.router.navigateByUrl('/home');
       },
-      (error) => {
+      error: (error) => {
         console.error(
           'Signup failed!',
           error instanceof Error ? error.message : error
         );
-      }
-    );
+      },
+    });
   }
 }

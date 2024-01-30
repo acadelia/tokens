@@ -11,13 +11,13 @@ export class HomeComponent implements OnInit {
   constructor(private details: DetailsService) {}
 
   ngOnInit(): void {
-    this.details.getDetails().subscribe(
-      (response) => {
+    this.details.getDetails().subscribe({
+      next: (response) => {
         this.detailsMessage = response;
       },
-      (error) => {
+      error: (error) => {
         console.error('Error getting details in component:', error);
-      }
-    );
+      },
+    });
   }
 }
