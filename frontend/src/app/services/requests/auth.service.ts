@@ -21,7 +21,11 @@ const refreshTokenApi = '/api/refreshToken';
 export class LoginService {
   constructor(private http: HttpClient, private tokenService: TokenService) {}
 
-  signUpAndLogin(username: string, email: string, password: string): Observable<any> {
+  signUpAndLogin(
+    username: string,
+    email: string,
+    password: string
+  ): Observable<any> {
     const signUpBody = {
       userName: username,
       email: email,

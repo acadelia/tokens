@@ -7,7 +7,7 @@ import { DetailsService } from '../../services/requests/details.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  detailsMessage: any;
+  detailsMessage!: object;
   constructor(private details: DetailsService) {}
 
   ngOnInit(): void {

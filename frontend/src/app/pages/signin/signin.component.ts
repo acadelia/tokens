@@ -9,9 +9,9 @@ import { TokenService } from '../../services/token.service';
   styleUrls: ['./signin.component.scss'],
 })
 export class SigninComponent implements OnInit {
-  email: any;
-  password: any;
-  errorMessage: any;
+  email!: string;
+  password!: string;
+  errorMessage!: string;
 
   constructor(
     private tokenService: TokenService,

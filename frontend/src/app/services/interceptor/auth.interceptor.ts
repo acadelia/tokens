@@ -16,7 +16,7 @@ export class TokenInterceptor implements HttpInterceptor {
   private tokenRefreshSubject: BehaviorSubject<any> = new BehaviorSubject<any>(
     null
   );
-  isRefreshing: any = false;
+  isRefreshing: boolean = false;
 
   constructor(
     private authService: LoginService,
